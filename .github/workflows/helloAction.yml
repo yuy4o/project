@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: C++ CI
 
 on:
   workflow_dispatch
@@ -17,12 +17,12 @@ jobs:
         run: brew install libtool
       - name: clone cppunit
         run: git clone git://anongit.freedesktop.org/git/libreoffice/cppunit/
+      - name: autogen.sh
+        run: ./cppunit/autogen.sh
+      - name: configure
+        run: ./cppunit/configure
       - name: cd cppunit
         run: cd cppunit
-      - name: autogen.sh
-        run: ./autogen.sh
-      - name: configure
-        run: ./configure
       - name: make
         run: make
       - name: make install
