@@ -22,8 +22,7 @@ jobs:
       - name: configure
         run: ./cppunit/configure
       - name: make
-        run: make
-        working-directory: ./cppunit
-      - name: make install
-        run: make install
-        working-directory: ./cppunit
+        run: |
+          cd ./cppunit
+          make
+          make install
