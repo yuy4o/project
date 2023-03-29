@@ -9,15 +9,25 @@ on:
 jobs:
   build-and-test:
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: install cppunit
-        run: sudo apt install -y libcppunit-dev
+      - name: install homebrew
+      - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: install automake
+      - run: brew install automake
+      - name: install libtool
+      - run: brew install libtool
+      - name: clone cppunit
+      - run: git clone git://anongit.freedesktop.org/git/libreoffice/cppunit/
+      - name: cd cppunit
+      - run: cd cppunit
+      - name: autogen.sh
+      - run: ./autogen.sh
       - name: configure
         run: ./configure
       - name: make
         run: make
-      - name: make test
-        run: make test
+      - name: make install
+        run: make install
