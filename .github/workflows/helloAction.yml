@@ -21,9 +21,9 @@ jobs:
         run: ./cppunit/autogen.sh
       - name: configure
         run: ./cppunit/configure
-      - name: cd cppunit
-        run: cd cppunit
       - name: make
         run: make
+        working-directory: ./cppunit
       - name: make install
         run: make install
+        working-directory: ./cppunit
