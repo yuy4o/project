@@ -1,6 +1,6 @@
 # project
 
-### [1. GitHub Actions for C++ using CLion](GitHub%20Actions%20C++/README.md)
+### [1. GitHub Actions for C++ using CLion](GitHub_Actions_C++/README.md)
 
 ### [2. gs maven](gs_maven/README.md)
 
