@@ -53,7 +53,7 @@ def worker(num):
     print(f'Worker: {num}')
 
 processes = []
-for i in range(1000):  # 创建1000个进程
+for i in range(1):  # 创建1000个进程
     p = Process(target=worker, args=(i,))
     processes.append(p)
     p.start()
@@ -63,9 +63,7 @@ for p in processes:
 
 
 # 异步编程 对于I/O密集型任务，可以使用asyncio模块实现异步编程，从而避免大量线程的开销
-
 import asyncio
-
 async def worker(num):
     """异步工作函数"""
     print(f'Worker: {num}')
@@ -77,8 +75,6 @@ async def main():
     await asyncio.gather(*tasks)  # 等待所有任务完成
 
 asyncio.run(main())
-
-
 
 #CPU密集型任务（如计算密集的算法、图像处理等）在Python中不适合使用多线程，因为GIL限制了并行执行。对于这类任务，可以使用多进程（multiprocessing模块），因为每个进程都有独立的GIL
 #线程数通常不会超过逻辑处理器数，否则会引起频繁的上下文切换，导致性能下降
