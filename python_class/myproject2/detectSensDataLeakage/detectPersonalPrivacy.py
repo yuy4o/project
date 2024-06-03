@@ -3,11 +3,12 @@ from .StringPatternRecognizer import StringPatternRecognizer
 
 class detectPersonalPrivacy(StringPatternRecognizer):
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__() #抽象基类中没有初始化，子类初始化跳过
     
     def find_pattern(self, text: str):
+        # self.xxx()调用当前类的xxx()功能，super().xxx()调用父类的xxx()功能
         rule_list = self.get_pattern()
-        return super().find_pattern(text)
+        return super().find_pattern(rule_list)
     
     def get_pattern(self):
         rule_list: dict = {
