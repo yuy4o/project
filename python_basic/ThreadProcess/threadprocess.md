@@ -16,7 +16,7 @@
 
 # logistic processor（硬件决定的并行执行单元） 区别于 进程数（软件创建的并发执行单元）。虽然逻辑处理器数目限制了能够同时执行的硬件线程数，
 # 但程序可以创建比逻辑处理器更多的线程。操作系统通过时间片轮转（time slicing）和上下文切换（context switching）来管理它们。
-#例如，你可以在具有16个逻辑处理器的系统上运行几百甚至几千个线程，但实际并行运行的线程数不会超过16个。其余的线程将在调度时被暂时挂起
+# 例如，你可以在具有16个逻辑处理器的系统上运行几百甚至几千个线程，但实际并行运行的线程数不会超过16个。其余的线程将在调度时被暂时挂起
 
 # Python使用threading模块可以创建许多线程，但由于GIL（全局解释器锁），多线程在CPU密集型任务中不会真正并行执行。
 # 在I/O密集型任务中，Python线程可以在等待I/O操作时让出GIL，从而允许其他线程运行。
@@ -26,6 +26,7 @@
 # 尽管如此，Python线程在I/O操作（如文件读写、网络请求）期间可以释放GIL，从而允许其他线程运行，这使得多线程在I/O密集型任务中仍然有用。
 
 # 创建大量线程
+```python
 import threading
 
 def worker(num):
@@ -40,12 +41,12 @@ for i in range(1000):  # 创建1000个线程
 
 for t in threads:
     t.join()  # 等待所有线程完成
+```
 
-
-# 处理大量并发任务时，建议使用多进程或异步编程。这样可以更有效地利用系统资源，克服GIL的限制，并避免因过多线程导致
-# 的开销和性能问题。
+# 处理大量并发任务时，建议使用多进程或异步编程。这样可以更有效地利用系统资源，克服GIL的限制，并避免因过多线程导致的开销和性能问题。
 
 # 多进程 使用multiprocessing模块可以绕过GIL限制，因为每个进程都有自己的Python解释器和GIL。多进程适用于CPU密集型任务。
+```python
 from multiprocessing import Process
 
 def worker(num):
@@ -60,9 +61,11 @@ for i in range(1):  # 创建1000个进程
 
 for p in processes:
     p.join()  # 等待所有进程完成
-
+```
 
 # 异步编程 对于I/O密集型任务，可以使用asyncio模块实现异步编程，从而避免大量线程的开销
+
+```python
 import asyncio
 async def worker(num):
     """异步工作函数"""
@@ -75,9 +78,10 @@ async def main():
     await asyncio.gather(*tasks)  # 等待所有任务完成
 
 asyncio.run(main())
-
-#CPU密集型任务（如计算密集的算法、图像处理等）在Python中不适合使用多线程，因为GIL限制了并行执行。对于这类任务，可以使用多进程（multiprocessing模块），因为每个进程都有独立的GIL
-#线程数通常不会超过逻辑处理器数，否则会引起频繁的上下文切换，导致性能下降
+```
+# CPU密集型任务（如计算密集的算法、图像处理等）在Python中不适合使用多线程，因为GIL限制了并行执行。对于这类任务，可以使用多进程（multiprocessing模块），因为每个进程都有独立的GIL
+# 线程数通常不会超过逻辑处理器数，否则会引起频繁的上下文切换，导致性能下降
+```python
 from multiprocessing import Process
 
 def cpu_bound_task(number):
@@ -93,9 +97,10 @@ for i in range(16):  # 创建16个进程
 
 for p in processes:
     p.join()
-
-#I/O密集型任务（如网络请求、文件读写等）适合使用多线程或异步编程。多线程可以利用等待I/O操作的时间执行其他线程的代码。
+```
+# I/O密集型任务（如网络请求、文件读写等）适合使用多线程或异步编程。多线程可以利用等待I/O操作的时间执行其他线程的代码。
 # 可以创建比逻辑处理器数更多的线程，从而有效利用等待I/O的时间执行其他任务。
+```python
 import threading
 
 def io_bound_task(number):
@@ -112,3 +117,4 @@ for i in range(100):  # 创建100个线程
 
 for t in threads:
     t.join()
+```
